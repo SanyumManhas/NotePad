@@ -1,10 +1,11 @@
 import { StyleSheet, Text, View,Pressable } from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import HomeScreen from './screens/HomeScreen';
-import Card from './screens/Card';
 import {createContext, useState} from 'react'
+import {lazy, Suspense} from 'react'
 
+const HomeScreen = lazy(()=>{import('./screens/HomeScreen')})
+const Card = lazy(()=>{import('./screens/Card')})
 
 const Context = createContext();
 
@@ -25,6 +26,7 @@ export default function App() {
           headerTitleStyle:{fontWeight:'bold'},
           headerTitleAlign:'center',
         }}>
+        <Suspense fallback={<div>Loading...</div>}>
           <Stack.Screen name ='HomeScreen' component={HomeScreen}
             options={{
               title:'Notes'
@@ -35,6 +37,7 @@ export default function App() {
               {title:'Write Here...'}
             }
           />
+            </Suspense>
         </Stack.Navigator>
       </NavigationContainer>
       </Context.Provider>
