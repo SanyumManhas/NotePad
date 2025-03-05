@@ -1,10 +1,11 @@
 import {View, Text, Button, Pressable, FlatList, StyleSheet, ScrollView, TextInput} from 'react-native';
 import { Context } from '../App';
-import { useContext, useState } from 'react';
-import Preview from './Preview';
+import { useContext, useState,lazy,Suspense } from 'react';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
+
+const Preview = lazy(()=>{import('./Preview')})
 
 import { useIsFocused } from '@react-navigation/native';
 
@@ -53,7 +54,9 @@ const HomeScreen = ({navigation})=>{
                         <Pressable onPress={()=>{
                             navigation.navigate("Card", {id: item.id, title: item.title, content: item.content})
                         }}>
-                        <Preview {...item}/>
+                        <Suspense fallback={<div>Preview Appears Here...</div>}>
+                            <Preview {...item}/>
+                        </Suspense>
                         </Pressable>
                     )}
                 />
